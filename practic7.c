@@ -15,7 +15,7 @@ int main()
     do
     {
 
-        float lower_bound, upper_bound, first_bound, second_bound, accuracy, result, dependent_variable, zero;
+        float lower_bound, upper_bound, first_bound, second_bound, accuracy, result, dependent_variable;
         int choise_equation, choise_method, e;
 
         system("cls");
@@ -145,7 +145,7 @@ float root2(float (*func)(float, float), float top, float t, float e)
 
     if (fabs((*func)(x, t)) > 1)
     {
-        printf("There is no roots in this range");
+        printf("There is no roots in this range!\n");
         return 0;
     }
     return x;
@@ -158,16 +158,13 @@ int verify_int(int *variable_int)
 {
     char ch;
     scanf("%d%c", variable_int, &ch);
-    if (ch != '\n')
-    {
-        printf("Invalid number. Try again!\n");
-        clear();
-        return 1;
-    }
-    else
+    if (ch == '\n')
     {
         return 0;
     }
+    printf("Invalid number. Try again!\n");
+    clear();
+    return 1;
 }
 
 int verify_choise_case(int var_choise_case)
@@ -184,16 +181,13 @@ int verify_float(float *variable_float)
 {
     char ch;
     scanf("%f%c", variable_float, &ch);
-    if (ch != '\n')
-    {
-        printf("Invalid number. Try again!\n");
-        clear();
-        return 1;
-    }
-    else
+    if (ch == '\n')
     {
         return 0;
     }
+    printf("Invalid number. Try again!\n");
+    clear();
+    return 1;
 }
 
 int verify_bounds(float var_first, float var_second, float *var_low, float *var_top)
@@ -224,14 +218,13 @@ int verify_accuracy(float *var_accuracy)
         *var_accuracy = 1 / (pow(10, *var_accuracy));
         return 0;
     }
-    else if ((*var_accuracy < 1) && (*var_accuracy > 0) && (*var_accuracy > (1e-7)))
+    else if ((*var_accuracy < 1) && (*var_accuracy > (1e-7)))
     {
         for (i = 1; i < 8; i++)
         {
             result = (1 / (pow(10, i)));
             if (*var_accuracy == result)
             {
-                break;
                 return 0;
             }
             if (i == 8)
@@ -241,15 +234,11 @@ int verify_accuracy(float *var_accuracy)
             }
         }
     }
-    else
-    {
-        printf("Invalid accuracy. Try again!\n");
-        return 1;
-    }
+    printf("Invalid accuracy. Try again!\n");
+    return 1;
 }
 
 //---verefications end---//
-
 
 void clear()
 {
