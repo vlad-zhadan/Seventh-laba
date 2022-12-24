@@ -59,6 +59,100 @@ int main()
     } while (key != ESC);
 }
 
+//---calculation start---//
+
+float equation1(float x, float t)
+{
+    return (cos(t / x) - 2 * sin(1.0 / x) + 1.0 / x);
+}
+
+float equation2(float x, float t)
+{
+    return sin(log(x)) - cos(log(x)) + t * log(x);
+}
+
+float calculation(float lower_bound, float upper_bound, float dependent_variable, int method, int choise_equation, float accuracy)
+{
+    float result;
+    if (method == 1)
+    {
+        if (choise_equation == 1)
+        {
+            result = root1(equation1, lower_bound, upper_bound, dependent_variable, accuracy);
+            return result;
+        }
+        result = root1(equation2, lower_bound, upper_bound, dependent_variable, accuracy);
+        return result;
+    }
+
+    if (choise_equation == 1)
+    {
+        result = root2(equation1, upper_bound, dependent_variable, accuracy);
+        return result;
+    }
+    result = root2(equation2, upper_bound, dependent_variable, accuracy);
+    return result;
+}
+
+float root1(float (*func)(float, float), float low, float top, float t, float e)
+{
+    float x, fLow, fx;
+
+    do
+    {
+        x = (low + top) / 2;
+        fLow = (*func)(low, t);
+        fx = (*func)(x, t);
+        if (isnan(fLow) || isnan(fx))
+        {
+            printf("Value doesn't belong to the domain of function");
+            return 0;
+        }
+        if (fLow * fx > 0)
+        {
+            low = x;
+        }
+        else
+        {
+            top = x;
+        }
+    } while (fabs(top - low) > e);
+
+    if (fabs((*func)(x, t)) > 1)
+    {
+        printf("There is no roots in this range");
+        return 0;
+    }
+    return x;
+}
+
+float root2(float (*func)(float, float), float top, float t, float e)
+{
+    float b, delta, x = top, der;
+
+    do
+    {
+        b = (*func)(x, t);
+        der = ((*func)(x + pow(10, -6), t) - b) / pow(10, -6); // derivative
+        if (isnan(b) || isnan(der))
+        {
+            printf("Value doesn't belong to the domain of function");
+            return 0;
+        }
+        delta = b / der;
+        x -= delta;
+    } while (fabs(delta) > e);
+
+    if (fabs((*func)(x, t)) > 1)
+    {
+        printf("There is no roots in this range");
+        return 0;
+    }
+    return x;
+}
+
+//---calculation end---//
+
 //---verefications start---//
 int verify_int(int *variable_int)
 {
@@ -156,99 +250,6 @@ int verify_accuracy(float *var_accuracy)
 
 //---verefications end---//
 
-//---calculation start---//
-
-float equation1(float x, float t)
-{
-    return (cos(t / x) - 2 * sin(1.0 / x) + 1.0 / x);
-}
-
-float equation2(float x, float t)
-{
-    return sin(log(x)) - cos(log(x)) + t * log(x);
-}
-
-float calculation(float lower_bound, float upper_bound, float dependent_variable, int method, int choise_equation, float accuracy)
-{
-    float result;
-    if (method == 1)
-    {
-        if (choise_equation == 1)
-        {
-            result = root1(equation1, lower_bound, upper_bound, dependent_variable, accuracy);
-            return result;
-        }
-        result = root1(equation2, lower_bound, upper_bound, dependent_variable, accuracy);
-        return result;
-    }
-
-    if (choise_equation == 1)
-    {
-        result = root2(equation1, upper_bound, dependent_variable, accuracy);
-        return result;
-    }
-    result = root2(equation2, upper_bound, dependent_variable, accuracy);
-    return result;
-}
-
-float root1(float (*func)(float, float), float low, float top, float t, float e)
-{
-    float x, fLow, fx;
-
-    do
-    {
-        x = (low + top) / 2;
-        fLow = (*func)(low, t);
-        fx = (*func)(x, t);
-        if (isnan(fLow) || isnan(fx))
-        {
-            printf("Value doesn't belong to the domain of function");
-            return 0;
-        }
-        if (fLow * fx > 0)
-        {
-            low = x;
-        }
-        else
-        {
-            top = x;
-        }
-    } while (fabs(top - low) > e);
-
-    if (fabs((*func)(x, t)) > 1)
-    {
-        printf("There is no roots in this range");
-        return 0;
-    }
-    return x;
-}
-
-float root2(float (*func)(float, float), float top, float t, float e)
-{
-    float b, delta, x = top, der;
-
-    do
-    {
-        b = (*func)(x, t);
-        der = ((*func)(x + pow(10, -6), t) - b) / pow(10, -6); // derivative
-        if (isnan(b) || isnan(der))
-        {
-            printf("Value doesn't belong to the domain of function");
-            return 0;
-        }
-        delta = b / der;
-        x -= delta;
-    } while (fabs(delta) > e);
-
-    if (fabs((*func)(x, t)) > 1)
-    {
-        printf("There is no roots in this range");
-        return 0;
-    }
-    return x;
-}
-
-//---calculation start---//
 
 void clear()
 {
