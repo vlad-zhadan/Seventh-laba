@@ -84,7 +84,6 @@ float calculation(float lower_bound, float upper_bound, float dependent_variable
         result = root1(equation2, lower_bound, upper_bound, dependent_variable, accuracy);
         return result;
     }
-
     if (choise_equation == 1)
     {
         result = root2(equation1, upper_bound, dependent_variable, accuracy);
