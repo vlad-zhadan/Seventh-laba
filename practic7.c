@@ -204,7 +204,6 @@ int verify_bounds(float var_first, float var_second, float *var_low, float *var_
         *var_low = var_second;
         return 0;
     }
-
     printf("Invalid borders. Try again!\n");
     return 1;
 }
